@@ -77,5 +77,6 @@ Als mein Blick später vor Schlegel nach Verlassen des Waldes auf wogende Korn- 
 
 Kurz vor Erreichen der Ortseinfahrt biegt der Weg rechts in eine Kleingartenkolonie ab und folgt dann steil abfallenden Nebenstraßen bis zum Bahnhof. Ich überquerte dort die Gleise und stand dann gegen 11:55 Uhr am Ufer der Saale. Ich kramte den kleinen, in Hörschel eingesteckten Kiesel aus meiner Hemdtasche und warf ihn in den Fluss. Starke Fußbeschwerden machten sich jetzt bemerkbar, lange immer wieder erfolgreich unterdrückt. Aufgrund der knappen Zeit bis zur Abfahrt des nächsten Zuges Richtung Saalfeld um 12:38 machte ich mich bald auf, langsam humpelnd zurück zum Bahnhof aufzusteigen – und habe so mein Zielfoto vergessen.
 
+{% include licence.html %}
 
 

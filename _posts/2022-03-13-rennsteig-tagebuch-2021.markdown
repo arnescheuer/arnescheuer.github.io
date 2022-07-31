@@ -81,3 +81,5 @@ Sei es drum, die nächsten Kilometer bei zunehmender Helligkeit boten keine Prob
 Ich schaute auf die Uhr und rechnete. Falls ich die letzten 6 Kilometer in weniger als 90 Minuten schaffte, konnte ich unter der 50-Stunden-Marke bleiben! Nach dem frustrierenden Zeitverlust in der vergangenen Nacht setzte ich mir dieses letzte Ziel. Ich schluckte ein weiteres Päckchen Energy-Gel und lief los. Weniger das Gel als die Wut auf die eigene Unzulänglichkeit ließen mich durchstarten. Unterwegs passierte ich Wegstelleni, wo ich im letzten Jahr noch auf den letzten Kilometern immer wieder kurz anhalten und Kraft schöpfen musste. Nicht so diesmal – nach 70 Minuten stand ich am Ziel. Es blieb die Genugtuung, unter dem magischen Zeitlimit geblieben zu sein. Der Rennsteig war geschafft, das kleine Steinchen, das mich nun insgesamt 250 Wanderkilometer von der Werra zur Saale begleitet hatte, landete endlich im Fluss.
 
 ![Rennsteigmitte erreicht!]({{page.img-path}}20210807_091414_resize.jpg)
+
+{% include licence.html %}
