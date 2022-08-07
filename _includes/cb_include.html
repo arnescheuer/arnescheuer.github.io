@@ -1,0 +1,1470 @@
+
+<h2 lang="en-US" class="western">
+	<a name="TOC-1.-Introduction"></a> <font face="Arial, sans-serif">1.
+		Introduction</font>
+</h2>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">T<font color="#000000">raditionally,
+				approaches to simulate human brain functions tended to rely on
+				architectural designs directly inspired by the human anatomical
+				model. </font><font color="#000000">Consider</font><font color="#000000">
+				for example neural networks used to imitate learning processes. Here
+				I aim to explore methods for constructing a cellular brain that
+				fulfills the requirements of being a) generic in terms of functional
+				use, and, b) simple in terms of state and rule definition. In fact,
+				the model proposed below should work as a multipurpose information
+				processor.</font></font></font>
+</p>
+<h2 lang="en-US" class="western">
+	<a name="TOC-2.-General-model-specification"></a> <font
+		face="Arial, sans-serif">2. General model specification</font>
+</h2>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The starting point of my approach
+			stresses the fact that all sensual input (visual, oral, and so on)
+			enters the human brain as a continued chain of signals. For our goal
+			we can model this chain of signals as discrete input of sequences of
+			characters. The cellular brain should be capable of transferring
+			temporal succession and repetition of input words in the presence of
+			noise into throughput and output patterns coded as sequences of
+			characters with a similar syntax than the input.</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The following concepts are used to
+			implement this model:</font></font>
+</p>
+<h3 lang="en-US" class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 11pt">2.1. Modeling environment</font></font>
+</h3>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The model environment employed here
+			technically represents a deterministic two dimensional cellular
+			automaton. The following boundary conditions hold:</font></font>
+</p>
+<ul type="disc">
+	<ul type="circle">
+		<li />
+		<p lang="en-US" style="margin-top: 0.18cm">
+			<font face="Arial, sans-serif"><font size="2"
+				style="font-size: 10pt">Defined uniform environment
+					concerning dimensions, neighborhood </font></font>
+		</p>
+		<li />
+		<p style="margin-top: 0.18cm">
+			<font face="Arial, sans-serif"><font size="2"
+				style="font-size: 10pt"><span lang="en-US">Defined
+						position of input / output cells</span></font></font>
+		</p>
+		<li />
+		<p style="margin-top: 0.18cm">
+			<font face="Arial, sans-serif"><font size="2"
+				style="font-size: 10pt"><span lang="en-US">Defined
+						restriction of number of characters that could be stored in one
+						cell</span></font></font>
+		</p>
+		<li />
+		<p style="margin-top: 0.18cm">
+			<font face="Arial, sans-serif"><font size="2"
+				style="font-size: 10pt"><span lang="en-US">Overall
+						black-box approach: input generates output without predefined
+						transformation process</span></font></font>
+		</p>
+	</ul>
+</ul>
+<h3 lang="en-US" class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 11pt">2.2. Formal grammar</font></font>
+</h3>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The idea is that the cellular brain,
+			working in black box like manner, transforms the input character
+			sequences into a sequence of output characters. Each transformation
+			is effectuated in accordance with the grammar specified below, but
+			only the sequences finally passed to the output cells will be taken
+			into consideration for calculating model performance<br /> <br />
+			Grammar in EBNF (Extended Backus-Naur Form):
+	</font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US"><i>Text</i></span></font></font> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">= </span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US"><i>Sentence</i></span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">, {</span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US"><i>Sentence</i></span></font></font>
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">}, (*A text
+				consists of one or more sentences*);</span></font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US"><i>Sentence</i></span></font></font>
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= </span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US"><i>Content</i></span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">,&rdquo;.&rdquo;,
+				(*A sentence consists of its content and one terminal point*); </span></font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US"><i>Content</i></span></font></font>
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= </span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US"><i>Token</i></span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">,
+				[&ldquo;-&rdquo;],{</span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US"><i>Token</i></span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">,[&ldquo;-&rdquo;]},(*The content consists of one
+				or more token separated by a minus*);</span></font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US"><i>Token</i></span></font></font>
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">=
+				&ldquo;A&rdquo; | &ldquo;B&rdquo; | &ldquo;C&rdquo; | &hellip; |
+				&ldquo;Z&rdquo;,(*One token consists of an upper-case letter *);</span></font></font>
+</p>
+<h3 lang="en-US" class="western">
+	<a name="TOC-2.3.-Mealy-automaton"></a> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 11pt">2.3. Mealy automaton</font></font>
+</h3>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The cellular brain thus could be
+			conceived as a deterministic automaton that uses input and throughput
+			to generate output after a countable sequence of steps. A rather
+			simple relationship between cell activity level and cell information
+			content is used to model the transfer of information through the
+			cellular brain.</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The following equations are used for
+			this purpose:</font></font>
+</p>
+<p class="msonormal">&nbsp;</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">(1) -&Delta; I <sub>t0 </sub>= i<sub>
+				fading</sub> * I<sub> t-1</sub> , <br /> Information fading
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">(2) +&Delta; I <sub>t0 </sub>= I<sub>
+				t0</sub><sup>Input</sup><sub> </sub>, <br /> Information input from
+			outside the system
+	</font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">(3) +&Delta;
+				I </span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">t0 </span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">= &sum; (( A</span></font></font><sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US"> t-1</span></font></font></sub><sup><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">n</span></font></font></sup><sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US"> </span></font></font></sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">- A</span></font></font><sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US"> t-1</span></font></font></sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US"> ) *
+				i</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US"> creation
+					transfer</span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">, * I</span></font></font><sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US"> t-1 </span></font></font></sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">^ <br />
+				(( A
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US"> t-1</span></font></font></sub><sup><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US">n</span></font></font></sup><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US"> </span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">- A</span></font></font><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">
+					t-1</span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US"> ) * i</span></font></font><sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US"> creation transfer</span></font></font></sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">,
+				&lt; a</span></font></font><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">
+					barrier transfer v<br />
+			</span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">I </span></font></font><sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US">t-1 </span></font></font></sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">&lt;
+				I </span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">max</span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">, * i</span></font></font><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">
+					barrier transfer )))</span></font></font></sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US"><br />
+				Information transfer from neighboring cells</span></font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">(4) -&Delta; I <sub>t0 </sub>= I <sub>t0
+		</sub>- I <sub>max</sub>, <br /> Information substitution if current content
+			exceeds cell limit
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">(5) -&Delta; A <sub>t0 </sub>= a<sub>
+				fading</sub> * A<sub> t-1</sub> , <br /> Activity fading
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">(6) +&Delta; A <sub>t0 </sub>= ( I<sub>
+				t0</sub><sup>Input</sup><sub> </sub>/ I <sub>max </sub>) * a<sub>
+				creation input</sub>,<br /> Activity creation through information input
+			from outside the system
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">(7) +&Delta; A <sub>t0 </sub>= ( &sum;
+			(C<sub> t0</sub> * T <sub>length</sub> ) / I <sub>max </sub>) * a<sub>
+				creation collision</sub><br /> Activity creation through information
+			collision events
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">(8) +&Delta; A <sub>t0 </sub>= ( &sum;
+			(+&Delta; I<sub>t0</sub><sup>n</sup><sub> </sub>) / &sum; (I <sub>max</sub>)
+			) * a<sub> creation transfer</sub>, <br /> Activity creation through
+			information transfer from neighborhood;
+	</font></font>
+</p>
+<p class="msonormal">&nbsp;</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">for:</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">I = cell information content</font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+	</sub><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">fading</span></font></font></sub> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">= information fading coefficient (between 0 and
+				1)<br /> i
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					transfer</span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">,= correction
+				factor for information transfer due to activity gradient (between 0
+				and &infin;)</span></font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+	</sub><sub><span lang="en-US">barrier transfer </span></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">= </span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">correction
+				factor for </span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">information
+				content inhibiting information transfer (between 0 and </span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">1</span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">)</span></font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">A = cell activity level (between 0 and
+			1)</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">a<sub> fading </sub>= activity fading
+			coefficient (between 0 and 1)
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">a<sub> creation input </sub>=
+			correction factor for activity creation via information input
+			(between 0 and &infin;)
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">a<sub> creation collision </sub>=
+			correction factor for activity creation via information collision
+			(between 0 and &infin;)
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">a<sub> creation transfer </sub>=
+			correction factor for activity creation via information transfer
+			(between 0 and &infin;)
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">a<sub> barrier transfer </sub>= upper
+			limit of activity gradient allowing information transfer (between 0
+			and &infin;)
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">C = information collision event(s)</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">T = information token creating
+			collision events</font></font>
+</p>
+<p class="msonormal">
+	&nbsp;<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">During model
+				simulation run</span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">s</span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">, the equations </span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">are</span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US"> calculated in the above shown order for each
+				cell. The behavior of the system could be summarized as follows:
+				information creation determines activity creation and activity
+				creation determines information transfer.</span></font></font>
+</p>
+<h3 lang="en-US" class="western">
+	<a name="TOC-2.4.-Intracellular-information-manag"></a> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 11pt">2.4.
+			Intracellular information management</font></font>
+</h3>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">In contrast to activity, information
+			does not constitute a homogeneous substance. Consequently, relative
+			position of information tokens in a cell potentially matters. The
+			management of information in a cell could thus be understood as a
+			queuing mechanism: some aspects of model behavior like information
+			fading and information substitution decrease the amount of cell
+			information, other processes like information input and information
+			transfer increase the amount of cell information.</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">Four different queuing mechanism have
+			been implemented:<br /> <br /> &ldquo;FIFO&rdquo;: &ldquo;first in -
+			first out&rdquo;, meaning that information will be added to and
+			returned from the same end of the queue (say, the left end)<br />
+			&ldquo;FILO&rdquo;: &ldquo;first in - last out&rdquo;, meaning that
+			information will be added to one end and returned from the other end
+			of the queue.<br /> &ldquo;FREQ&rdquo;: The most
+			&ldquo;frequent&rdquo; token will be added from information providing
+			processes to the queue, and, also the most &ldquo;frequent&rdquo;
+			token returned from the queue to information consuming processes<br />
+			&ldquo;RARE&rdquo;: The &ldquo;rarest&rdquo; token will be added from
+			information providing processes to the queue, and, also the
+			&ldquo;rarest&rdquo; token will be returned from the queue to
+			information consuming processes
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">These four elementary queuing
+			mechanisms are used to implement two types of queues.</font></font>
+</p>
+<h4 lang="en-US" class="western">
+	<a name="TOC-2.4.1.-Mixed-queue"></a> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt">2.4.1. Mixed queue</font></font>
+</h4>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">The mixed
+				queue uses all four queuing mechanisms, depending on the
+				&ldquo;information saturation&rdquo; of a cell at the moment of
+				information substitution (compare (4) equation in chapter 2.3). This
+				indicator of &ldquo;information saturation&rdquo; is calculated as
+				follows:<br /> <br /> (9) IS
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">t0</span></font></font></sub> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">= ( </span></font></font>&sum; <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">(&Delta;
+				I </span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">t0</span></font></font></sub><sup><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US">n</span></font></font></sup><sub> </sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">)) +
+				I</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">t0</span></font></font></sub><sup><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US">Input</span></font></font></sup> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">/ n
+				+ 1 / I </span></font></font><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">max</span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">, <br /> <br /> relates the total amount of
+				gained information through input and transfer, divided firstly by
+				the number of delivering cells (true neighbors for transfer and
+				fictional neighbors for input) and, secondly, by the maximal
+				information content of a cell. The indicator can attain values
+				between 0 and 1. The higher the value, the higher the supply of new
+				information to the cell. Different value intervals of the indicator
+				of &ldquo;information saturation&rdquo;
+		</span></font></font> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">correspond to
+				different queue mechanism usages:<br /> <br /> 0 &lt;= IS
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">t0 </span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">&lt; 0.25: &ldquo;FREQ&rdquo; usage<br /> 0.25
+				&lt;= IS
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">t0 </span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">&lt; 0.50: &ldquo;FIFO&rdquo; usage<br /> 0.50
+				&lt;= IS
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">t0 </span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">&lt; 0.75: &ldquo;FILO&rdquo; usage<br /> 0.75
+				&lt;= IS
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">t0 </span></font></font></sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">&lt;= 1: &ldquo;RARE&rdquo; usage<br /> <br />
+				During a model simulation run the queuing mechanism is thus likely
+				to change several times.
+		</span></font></font>
+</p>
+<h4 lang="en-US" class="western">
+	<a name="TOC-2.4.2.-Pure-FILO-queue"></a> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt">2.4.2.
+			Pure &ldquo;FILO&rdquo; queue</font></font>
+</h4>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">As the name suggests, this queue
+			exclusively relies on the &ldquo;FILO&rdquo; mechanism.</font></font>
+</p>
+<h2 lang="en-US" class="western">
+	<a name="TOC-3.-Association-capability"></a> <font
+		face="Arial, sans-serif"><font size="3" style="font-size: 12pt">3.
+			Association capability</font></font>
+</h2>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">My first goal will be to test the
+			association capability of the model. In my opinion, association
+			constitutes one of most astonishing competences of the human brain
+			and could be regarded as a prerequisite for a number of key cognitive
+			abilities like knowledge, memory, evaluation, reasoning. Association
+			goes well beyond the simple linkage of temporal or spatial
+			coincidence. Complex, seemingly subconscious reasoning patterns
+			result in surprising connections between isolated events.</font></font>
+</p>
+<h3 lang="en-US" class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 11pt">3.1. Measurement of associative content</font></font>
+</h3>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">In data
+				mining applications, some algorithms are popular for detecting for
+				association patterns between elements of item sets. This constitutes
+				one of the most important tasks for example in the analysis of
+				shopping behavior. My approach tries to refine the classical
+				methodology with special consideration of temporal relationship
+				between individual elements (in our case tokens of the character
+				input sequences) and of noise with no obvious significance for the
+				detection of association patterns. As already stated in the
+				conditions defining the modeling environment, one cell could only
+				hold a limited number of character. In order to allow unrestricted
+				access to the input cells of cellular brain, the length of
+				individual sentences should not be surpass the storage limit.<br />
+		</span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 11pt"><span lang="en-US"><b><br />
+			</b></span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US"><b>3.1.1.
+					Association filtering quotient </b></span></font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The first algorithm used to evaluate
+			the associative power of the cellular brain comprises the following
+			steps:</font></font>
+</p>
+<p>
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">1. Enter a
+				first input text into the defined input cell of the brain (here it
+				is assumed that only one input and one output cell will used during
+				the measurement process), one sentence during each iteration.<br />
+				2. Let the brain work with the first input text and throughput for a
+				certain number of iterations<br /> 3. Measure the associative
+				content of the second input text:<br /> 3.1. Ignore all tokens that
+				appear with a high frequency above a certain limit, for example more
+				than 50% of all tokens of a single sentence. Goal: eliminate noise.<br />
+				3.2. Detect any pair of different tokens that appear in the text,
+				count their pair wise frequency and evaluate the distance between
+				any pair wise appearance of tokens. The lesser the distance and the
+				higher the frequency, the higher the resulting associative score of
+				the token pair. Note: order is NOT
+		</span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">relevant</span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">, so the following two different token
+				combinations A-B and B-A are treated as instances of the same pair.<br />
+				3.3. Calculate the sum of all pair wise associative scores.<br />
+				4.Enter
+		</span></font></font> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">the second
+				input text into the defined input cell of the brain (here it is
+				assumed that only one input and one output cell will used during the
+				measurement process), one sentence during each iteration.<br />
+				5.Let
+		</span></font></font> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">the brain
+				work with the input and throughput for a certain number of
+				iterations.<br /> 6. Save the content of the defined output cell of
+				the brain over a certain number of iterations, corresponding to the
+				number of iterations necessary to enter the input into the brain.<br />
+				7. Measure the associative content of the output text using the same
+				procedure as in step 1.<br /> 8. Calculate the quotient of output
+				and input associative content. The higher the quotient, the better
+				the associative power of the cellular brain.<br />
+		</span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 11pt"><span lang="en-US"><br /> </span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US"><b>3.1.2. Association recombination rate</b></span></font></font>
+</p>
+<p lang="en-US" class="msonormal" style="margin-bottom: 0.42cm">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">In contrast to the association
+			filtering quotient, the association recombination rate does not put
+			so much emphasis on the measurement of association conservation, as
+			indicated by temporal succession, but on possible re-combination of
+			elementary tokens. </font></font>
+</p>
+<p lang="en-US" class="msonormal" style="margin-bottom: 0.42cm">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">The recombination rate value is thus
+			calculated using the following procedure:</font></font>
+</p>
+<p lang="en-US" class="msonormal" style="margin-top: 0.18cm">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">1. Enter a first input text into the
+			defined input cell of the brain (here it is assumed that only one
+			input and one output cell will used during the measurement process),
+			one sentence during each iteration.<br /> 2. Let the brain work with
+			the first input text and throughput for a certain number of
+			iterations<br /> 3. Measure the associative content of the second
+			input text:<br /> 3.1. Ignore all tokens that appear with a high
+			frequency above a certain limit, for example more than 50% of all
+			tokens of a single sentence. Goal: eliminate noise.<br /> 3.2. Detect
+			any pair of different tokens that appear in the text and evaluate the
+			distance between any pair wise appearance of tokens. Store
+			temporarily the smallest distance of all the occurrences of one pair.
+			As noted already above, order is NOT relevant.<br /> 4. Enter the
+			second input text into the defined input cell of the brain (here it
+			is assumed that only one input and one output cell will used during
+			the measurement process), one sentence during each iteration.<br />
+			5. Let the brain work with the input and throughput for a certain
+			number of iterations.<br /> 6. Save the content of the defined output
+			cell of the brain over a certain number of iterations, corresponding
+			to the number of iterations necessary to enter the input into the
+			brain.<br /> 7. Measure the associative content of the output text
+			applying the following logic to each token pair found:<br /> 7.1. Set
+			score to 1<br /> 7.2. Check if one of the following cases applies:<br />
+			7.2.1. If both token stem from second input, but if tokens are found
+			in different input sentences, multiply score by input sentence
+			distance;<br /> 7.2.2. Increase score by factor 2, if pair is not
+			found in second input<br /> 7.3. Divide resulting score by factor 2,
+			if token are found in different output sentences<br /> 8. Add up all
+			pair wise scores
+	</font></font>
+</p>
+<h4 lang="en-US" class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">3.1.3. Association lift quotient</font></font>
+</h4>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">The
+				association lift quotient is conceptually related to the association
+				filtering quotient. Output and input text sequences are analyzed
+				separately in a first step, and than related to one another in order
+				to measure the development of associative content. The
+				&quot;lift&quot; concept is frequently used in classical association
+				analysis:</span></font></font>&nbsp;
+</p>
+<p class="msonormal" style="margin-top: 0.18cm">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">1. Enter a
+				first input text into the defined input cell of the brain (here it
+				is assumed that only one input and one output cell will used during
+				the measurement process), one sentence during each iteration.<br />
+				2. Let the brain work with the first input text and throughput for a
+				certain number of iterations<br /> 3. Measure the associative
+				content of the second input text:<br /> 3.1. Do NOT ignore all
+				tokens that appear with a high frequency above a certain limit, for
+				example more than 50% of all tokens of a single sentence.<br /> 3.2.
+				Detect any pair of different tokens that appear in the text, count
+				their pair wise frequency and evaluate the distance between any pair
+				wise appearance of tokens. The lesser the combined distance and the
+				higher the frequency, the higher the resulting associative score of
+				the token pair. As noted already above, order is N
+		</span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">OT relevant</span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">.<br /> 3.3. Calculate the global sum of all pair
+				wise associative scores.<br /> 3.4. Calculate the LIFT for each
+				detected pair:<br /> 3.4.1. Calculate SCORE A-B: take the above
+				calculated score sum of individual pairs A-B and B-A, divided by
+				distance in sentences.<br /> 3.4.2. Calculate SCORE X: take the
+				above calculated global score sum.<br /> 3.4.3. Calculate SCORE A:
+				summing up occurrence of all pairs A-X + X-A, divided by distance
+				measured in sentences. <br /> 3.4.4. Calculate SCORE B: summing up
+				occurrence of all pairs B-X + X-B, divided by distance measured in
+				sentences..<br /> 3.4.5. Calculate SUPPORT A-B: SCORE A-B divided by
+				SCORE X.<br /> 3.4.6. Calculate SUPPORT A: SCORE A divided by SCORE
+				X.<br /> 3.4.7. Calculate SUPPORT B: SCORE B divided by SCORE X.<br />
+				3.4.8. Calculate LIFT A-B: SUPPORT(A-B) / SUPPORT(A) * SUPPORT(B).<br />
+				3.5. Sort pairs by descending order of LIFT.<br /> 4. Enter the text
+				into the defined input cell of the brain (here it is assumed that
+				only one input and one output cell will used during the measurement
+				process), one sentence during each iteration.<br /> 5. Let the brain
+				work with the input and throughput for a certain number of
+				iterations.<br /> 6. Save the content of the defined output cell of
+				the brain over a certain number of iterations, corresponding to the
+				number of iterations necessary to enter the input into the brain.<br />
+				7. Measure the associative content of the output text:<br /> 7.1.
+				Eliminate output token pairs that have no connection to input pairs,
+				meaning that both tokens of the individual pair do not appear in the
+				second input text.<br /> 7.2. Calculate the LIFT for each remaining
+				pair as described above under 3 and sort the pairs in descending
+				order of LIFT.<br /> 8.
+		</span></font></font> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">Calculate the
+				quotient of output and input associative content: sum up the LIFT
+				for the three highest scoring output pairs and divide by the LIFT
+				sum for the three highest scoring pairs of second input.</span></font></font>
+</p>
+<h3 class="western">
+	<a name="TOC-3.2.-Experiment-1:-Variation-of-acti"></a> &nbsp;<font
+		face="Arial, sans-serif"><font size="2" style="font-size: 11pt"><span
+			lang="en-US">3.2. Experiment 1: Variation of activity fading
+				rate</span></font></font>
+</h3>
+<h4 lang="en-US" class="western">
+	<a name="TOC-3.2.1.-Specific-model-settings"></a> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt">3.2.1.
+			Specific model settings</font></font>
+</h4>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">- Cell update
+				procedure: according to the above sequence of equations<br /> -
+				Habitat: 12 * 3 = 36 cells<br /> - Cell information capacity: 100
+				characters (including token separator &ldquo;-&rdquo;)<br /> -
+				Information fading coefficient i
+		</span></font></font> <sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US">fading</span></font></font></sub> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">= 0.25<br /> -
+		</span></font></font> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">Correction
+				factor for information transfer due to activity gradient i</span></font></font><sub><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+				lang="en-US"> creation transfer</span></font></font></sub><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">, =
+				not included<br /> - Activity gradient limit for information
+				transfer a
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US"> barrier
+					transfer </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= not
+				included<br /> - Correction factor for information content
+				inhibiting information transfer i
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US"> barrier
+					transfer </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= not
+				included<br /> - Correction factor for activity creation via
+				information input a
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					input </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= 1<br /> -
+				Correction factor for activity creation via information collision a
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					collision </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= 1<br /> -
+				Correction factor for activity creation via information transfer a
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					transfer </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= 1<br /> -
+				Queue type: mixed queue<br /> - Iterations: 40<br /> - Input cell:
+				central cell of leftmost column<br /> - Output cell: central cell of
+				rightmost column<br /> - Input: &ldquo;A-B-C-D-E&rdquo; at iteration
+				1 to 5;
+		</span></font></font>&ldquo;<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">V-W-X-Y-Z&rdquo;
+				at iteration 11 to 12<br /> - Output measurement lag in relation to
+				second input sequence: 25 iterations<br /> - Visualization: dark
+				colors indicate low activity levels, bright colors higher levels
+		</span></font></font>
+</p>
+<h4 lang="en-US" class="western">
+	<a name="TOC-3.2.2.-Results"></a> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt">3.2.2. Results</font></font>
+</h4>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">Case 1: activity fading rate = 0.123</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">- Output at iteration 35 and 36: -<br />
+			- Association filtering quotient: 0<br /> - Mean activity level per
+			cell: 0.002<br /> - Information token distribution:
+			A:0.94/V:0.021/B:0.021/C:0.021
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><br /> Case 2: activity fading rate =
+			0.122</font></font>
+</p>
+<p class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">- Output at
+				iteration 35 and 36: &ldquo;A&rdquo; * 58 =&gt; string with 29 times
+				character &ldquo;A&rdquo; per measurement iteration<br /> -
+				Association filtering
+		</span></font></font> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">quotient: 0<br />
+				- Mean activity level per cell: 0.939<br /> - Information token
+				distribution: A:1.0
+		</span></font></font>
+</p>
+<h4 lang="en-US" class="western"
+	style="margin-top: 0cm; margin-bottom: 0.1cm">
+	<a name="TOC-3.2.3.-Discussion"></a> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt">3.2.3. Discussion</font></font>
+</h4>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">- In both cases, the employed model
+			specified does not show the intended behavior: associations between
+			the two successive input sequences were not constructed or at least
+			not transported to the output cell.<br /> - In case 1, information
+			transfer comes to a standstill. Activity levels and gradients do not
+			allow for further proliferation.<br /> - In case 2, activity levels
+			stay high until the end of the simulation period. But the information
+			transfer process does not favor the conservation of information
+			diversity. Majority rule single out one token from the first input
+			sequence.<br /> - The most interesting fact from the experiment
+			concerns the sudden, system wide change in activity levels after an
+			incremental variation of the activity fading rate. Obviously an
+			internal threshold was reached, an indication of non linear behavior
+			of the system as a whole.
+	</font></font>
+</p>
+<h3 lang="en-US" class="western">
+	<a name="TOC-3.3.-Experiment-2:-Effect-of-simplif"></a> <font
+		face="Arial, sans-serif"><font size="2" style="font-size: 11pt">3.3.
+			Experiment 2: Effect using uniform information queuing mechanism</font></font>
+</h3>
+<h4 lang="en-US" class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">3.3.1. Specific model settings</font></font>
+</h4>
+<p class="msonormal">
+	<span lang="en-US">-</span> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">Cell
+				update procedure: according to the sequence of equations described
+				in section 2.3<br /> - Habitat: 12 * 3 = 36 cells<br /> - Cell
+				information capacity: 10 characters (including token separator
+				&quot;-&quot;)<br /> - Correction factor for information transfer
+				through activity gradient i
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					transfer</span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">, = between
+				0.7 and 1.3, incremented in steps of 0.3<br /> - Activity gradient
+				limit for information transfer a
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US"> barrier
+					transfer </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= between 0.2
+				and 0.8, incremented in steps of 0.1<br /> - Correction factor for
+				information content inhibiting information transfer i
+		</span></font></font><sub><font face="Arial, sans-serif"><font size="2"
+			style="font-size: 10pt"><span lang="en-US"> barrier
+					transfer </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">= between 0.2
+				and 0.8, incremented in steps of 0.1<br /> - Information fading
+				coefficient i
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">fading</span></font></font></sub>
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">between 0.2
+				and 0.8, incremented in steps of 0.1 <br /> - Correction factor for
+				activity creation via information input a
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					input </span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">between 0.7
+				and 1.3, incremented in steps of 0.3<br /> - Correction factor for
+				activity creation via information collision a
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					collision</span></font></font></sub> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">between 0.7
+				and 1.3, incremented in steps of 0.3<br /> - Correction factor for
+				activity creation via information transfer a
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">creation
+					transfer</span></font></font></sub> <font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">between 0.7
+				and 1.3, incremented in steps of 0.3<br /> - Activity fading
+				coefficient a
+		</span></font></font><sub> </sub><sub><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">fading
+			</span></font></font></sub><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">between 0.2
+				and 0.8, incremented in steps of 0.1.</span></font></font> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US"><br />
+				- Queue type: FILO queue<br /> - Iterations: 40<br /> - Input cell:
+				central cell of leftmost column<br /> - Output cell: central cell of
+				rightmost column<br /> - Input: &quot;A-B-C-D-E&quot; at iteration 1
+				to 5; &quot;V-W-X-Y-Z&quot; at iteration 11 to 12<br /> - Output
+				measurement lag in relation to second input sequence: 25 iterations<br />
+				- Measurement of model </span></font></font><font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">performance</span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US">: association filtering quotient, association
+				lift quotient, association recombination rate</span></font></font>
+</p>
+<h4 lang="en-US" class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">3.3.2. Justification of model setting
+			changes </font></font>
+</h4>
+<p class="msonormal">
+	<span lang="en-US">-</span> <font face="Arial, sans-serif"><font
+		size="2" style="font-size: 10pt"><span lang="en-US">Parameter
+				variation: For parameters that proved to be especially influential
+				in experiment 1, a narrow variation range reflects the knowledge
+				already obtained about the range of decisive values. New parameters
+				not used in experiment 1 are given special emphasis with a higher
+				number of increments.<br /> - Queue type: information transfer and
+				information substitution in the cells is now, in contrast to the
+				first experiment, modeled using the pure FILO (first-in, last-out)
+				queue, as described in chapter 2.4.2. The formerly employed mixed
+				queue, as described in chapter 2.4.1., uses different substitution
+				and transfer rules, depending on the total amount of information
+				ready for transfer in the neighborhood of each cell and in the queue
+				itself. In fact, the algorithm tends to
+		</span></font></font><font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">cause</span></font></font><font
+		face="Arial, sans-serif"><font size="2" style="font-size: 10pt"><span
+			lang="en-US"> a quick majority rule selection effect on the
+				different input tokens.</span></font></font>
+</p>
+<h4 class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">3.3.3.
+				Experiment design</span></font></font>
+</h4>
+<p>
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">- Individual
+				model simulations for each possible parameter value combination
+				using the intervals described in section 3.3.1. All in all 194481
+				simulations (7*7*7*3*3*3*3*7) are conducted.<br /> - The results of
+				those model runs with at least one performance indicator exhibiting
+				non-zero value, are considered further in the course of the
+				experiment. These simulations are considered as the population whole
+				for further statistical analysis. <br /> - With the help of
+				correlation analysis, the three measurement concepts for model
+				performance are checked for redundancy.<br /> -The values of the 8
+				parameters varied during the simulations will be standardized to
+				make them comparable. For this purpose a z-transformation renders a
+				value distribution with mean zero and standard deviation 1 for each
+				parameter.<br /> - The model run results are put in descending order
+				of model performance. For each performance indicator, those
+				simulations with goodness of fit above certain thresholds (level of
+				the mean plus two or three standard deviations) are put into
+				separate samples. <br /> - Those parameters are identified whose
+				values show a marked different distribution in the sub-samples with
+				high model fit, in comparison with the value distribution in all
+				runs with at least minimal model fit. T-tests are employed to
+				compare both distributions for all parameters.
+		</span></font></font>
+</p>
+<h4 lang="en-US" class="western">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">3.3.4. Results</font></font>
+</h4>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">-A proportion of 0.37 (72930
+			simulations) of all model runs attains above-zero model fitness, thus
+			forming the population whole for the following statistical analysis.<br />
+			- The association filtering quotient and the association lift
+			quotient are highly correlated with a coefficient of 0.82. This means
+			they effectively represent identical concepts. The association lift
+			quotient is preferred for further usage, because it does not filter
+			out noise. Thus the special lift concept that considers expectation
+			values, does favor unlikely and non-trivial individual associations
+			between tokens. <br /> - In contrast, the association recombination
+			indicator is not correlated with both other measuring concepts:
+			coefficient 0.02 for correlation with filtering quotient, coefficient
+			-0.15 for correlation with lift quotient. Therefore this concept is
+			retained for further usage.<br /> - For both remaining measurement
+			indicators, samples for those simulations with indicator values above
+			a) mean plus 2 standard deviations and b) mean plus 3 standard
+			deviations, are drawn. Concerning the lift quotient, no individual
+			model runs attain values above the threshold of mean plus 3 standard
+			deviations. As a result, only three samples of simulation types with
+			high goodness of fit must be considered.<br /> - The following tables
+			visualizes the properties of the samples of simulation runs with high
+			model performance, obtained by using different performance indicators
+			and different threshold values for performance indicator values in
+			the individual model runs:
+	</font></font>
+</p>
+<p lang="en-US" class="msonormal">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">Table 3.3.4.1: Arithmetic mean of
+			parameter values in samples with high modeling performance (mean in
+			whole population always 1)</font></font>
+</p>
+<table width="100%" cellpadding="4" cellspacing="0">
+	<col width="64*">
+	<col width="64*">
+	<col width="64*">
+	<col width="64*">
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Sample</font></font>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Lift &gt; mean + 2 * standard
+						deviation</font></font>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Lift &gt; mean + 3 * standard
+						deviation</font></font>
+			</p>
+		</td>
+		<td width="25%" style="border: 1px solid #000000; padding: 0.1cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Recombination &gt; mean + 2 *
+						standard deviation</font></font>
+			</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								transfer</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">0.00</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">0.00</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">0.00</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">barrier
+								transfer</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.09</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.21</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-0.05</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">fading</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.40</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.33</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-0.91</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								input</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.17</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.26</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-0.18</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								collision</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">0.05</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">0.01</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">0.18</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								transfer</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">0.24</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">0.24</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-0.36</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">a<sub> barrier transfer</sub></font></font>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.10</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.16</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">0.49</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">fading</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-0.07</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">0.11</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-1.12</p>
+		</td>
+	</tr>
+</table>
+<p lang="en-US" style="margin-bottom: 0cm">
+	<br />
+
+</p>
+<p class="msonormal">
+	<font color="#000000"><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">Table
+					3.3.</span></font></font></font><font color="#000000"><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">4</span></font></font></font><font
+		color="#000000"><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">.2:
+					T-test values indicating differences between population whole and
+					samples </span></font></font></font><font color="#000000"><font face="Arial, sans-serif"><font
+			size="2" style="font-size: 10pt"><span lang="en-US">(values
+					in brackets are not significant on the 0.01 level)</span></font></font></font><font
+		color="#000000">&nbsp;</font>
+</p>
+<table width="100%" cellpadding="4" cellspacing="0">
+	<col width="64*">
+	<col width="64*">
+	<col width="64*">
+	<col width="64*">
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Sample</font></font>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Lift &gt; mean + 2 * standard
+						deviation</font></font>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Lift &gt; mean + 3 * standard
+						deviation</font></font>
+			</p>
+		</td>
+		<td width="25%" style="border: 1px solid #000000; padding: 0.1cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">Recombination &gt; mean + 2 *
+						standard deviation</font></font>
+			</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								transfer</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">(0.00)</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">(0.00)</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">(0.00)</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">barrier
+								transfer</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-7.21</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-14.18</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">(-1.15)</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">i</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">fading</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-41.27</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-25.82</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-86.17</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								input</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-10.60</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-13.00</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-3.13</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								collision</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">3.83</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">(0.75)</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">4.41</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">creation
+								transfer</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">18.27</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">14.37</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-18.51</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt">a<sub> barrier transfer</sub></font></font>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-7.34</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-9.74</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">15.17</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p class="msonormal">
+				<font face="Arial, sans-serif"><font size="2"
+					style="font-size: 10pt"><span lang="en-US">a</span></font></font><sub>
+				</sub><sub><font face="Arial, sans-serif"><font size="2"
+						style="font-size: 10pt"><span lang="en-US">fading</span></font></font></sub>
+			</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">-4.67</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p lang="en-US" class="msonormal">6.29</p>
+		</td>
+		<td width="25%"
+			style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p lang="en-US" class="msonormal">-65.76</p>
+		</td>
+	</tr>
+</table>
+<h4 class="western"
+	style="margin-top: 0cm; margin-bottom: 0cm; text-decoration: none">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt"><span lang="en-US">3.3.4.
+				Discussion</span></font></font>
+</h4>
+<p lang="en-US" class="msonormal" style="text-decoration: none">
+	<font face="Arial, sans-serif"><font size="2"
+		style="font-size: 10pt">- Overall, the uniform information
+			queuing mechanism tends to smooth out the extreme effect of small
+			parameter value changes observed in experiment 1. In contrast to
+			experiment 1, a high percentage of all simulations resulted in
+			non-zero association indicator values. <br /> - Concerning the
+			relative importance of the parameters, high T-test values indicate
+			that the high performance sub-samples are significantly influences by
+			the parameter in question.<br /> - In general, the association
+			recombination indicator is more sensitive to parameter variation. <br />
+			- Both fading rates show especially significant T-test values. This
+			seams plausible, because they determine the persistence potential of
+			information in individual cells. The means of both parameters exhibit
+			comparatively low values in all three sub-samples with high model
+			fitness.<br /> - The information transfer parameter has no influence
+			at all on the association performance. It could be argued that this
+			parameter does not discriminate between cells. All cells are treated
+			alike and so the relative influence on model performance is leveled
+			out by other parameters determining locally specific information
+			transfer, namely those modifying activity creation by input or
+			collision, and those who cause transfer barriers to be erected or
+			removed.<br />
+	</font></font><br /> <br />
+
+</p>
