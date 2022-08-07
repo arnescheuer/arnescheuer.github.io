@@ -47,7 +47,7 @@ The cellular brain thus could be conceived as a deterministic automaton that use
 
 The following equations are used for this purpose:
 
-(1) $-Δ I _{t0} = i _{fading} * I _{t-1}$ , \
+(1) \[-Δ I _{t0} = i _{fading} * I _{t-1}\[ , \
 Information fading
 
 (2) $+Δ I _{t0} = I _{t0}^{Input}$ , \
