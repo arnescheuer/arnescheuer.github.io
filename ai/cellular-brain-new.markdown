@@ -36,7 +36,7 @@ Grammar in EBNF (Extended Backus-Naur Form):
 
 - *Sentence = Content,”.”*, (\*A sentence consists of its content and one terminal point\*);
 
-- *Content = Token, [“-”],{Token,[“-”]}*,(\*The content consists of one or more token separated by a minus\*);
+- *Content = Token, \\\[“-”\\\],{Token,\\\[“-”\\\]}*,(\*The content consists of one or more token separated by a minus\*);
 
 - *Token = “A” \| “B” \| “C” \| … \| “Z”*,(\*One token consists of an upper-case letter \*);
 
@@ -47,56 +47,56 @@ The cellular brain thus could be conceived as a deterministic automaton that use
 
 The following equations are used for this purpose:
 
-(1) $$-Δ I _{t0} = i _{fading} * I _{t-1}$$, \
+(1) $-Δ I _{t0} = i _{fading} * I _{t-1}$ , \
 Information fading
 
-(2) $$+Δ I _{t0} = I _{t0}^{Input}$$ , \
+(2) $+Δ I _{t0} = I _{t0}^{Input}$ , \
 Information input from outside the system
 
-(3) $$+Δ I _{t0} = ∑ (( A _{t-1n} - A _{t-1} ) * i _{creation transfer} * I _{t-1} \land 
+(3) $+Δ I _{t0} = ∑ (( A _{t-1n} - A _{t-1} ) * i _{creation transfer} * I _{t-1} \land 
 (( A _{t-1n} - A _{t-1} ) * i _{creationtransfer} < a _{barriertransfer} \lor 
-I _{t-1} < I  _{max} * i _{barrier transfer})))$$ , \
+I _{t-1} < I  _{max} * i _{barrier transfer})))$ , \
 Information transfer from neighboring cells
 
-(4) $$-Δ I _{t0} = I _{t0} - I _{max}$$ , \
+(4) $-Δ I _{t0} = I _{t0} - I _{max}$ , \
 Information substitution if current content exceeds cell limit
 
-(5) $$-Δ A _{t0} = a _{fading} * A _{t-1}$$ , \
+(5) $-Δ A _{t0} = a _{fading} * A _{t-1}$ , \
 Activity fading
 
-(6) $$+Δ A _{t0} = ( I _{t0}^{Input} / I _{max} ) * a _{creationinput}$$ , \
+(6) $+Δ A _{t0} = ( I _{t0}^{Input} / I _{max} ) * a _{creationinput}$ , \
 Activity creation through information input from outside the system
 
-(7) $$+Δ A _{t0} = ( ∑ (C _{t0} * T _{length}) / I _{max} ) * a _{creationcollision}$$ , \
+(7) $+Δ A _{t0} = ( ∑ (C _{t0} * T _{length}) / I _{max} ) * a _{creationcollision}$ , \
 Activity creation through information collision events
 
-(8) $$+Δ A _{t0} = ( ∑ (+Δ I _{t0n} ) / ∑ (I _{max}) ) * a _{creationtransfer}$$ , \
+(8) $+Δ A _{t0} = ( ∑ (+Δ I _{t0n} ) / ∑ (I _{max}) ) * a _{creationtransfer}$ , \
 Activity creation through information transfer from neighborhood
 
 for:
 
-$$I$$ = cell information content
+$I$ = cell information content
 
-$$i _{fading}$$ = information fading coefficient (between 0 and 1)
-$$i _{creationtransfer}$$ = correction factor for information transfer due to activity gradient (between 0 and ∞)
+$i _{fading}$ = information fading coefficient (between 0 and 1)
+$i _{creationtransfer}$ = correction factor for information transfer due to activity gradient (between 0 and ∞)
 
-$$i _{barriertransfer}$$ = correction factor for information content inhibiting information transfer (between 0 and 1)
+$i _{barriertransfer}$ = correction factor for information content inhibiting information transfer (between 0 and 1)
 
-$$A$$ = cell activity level (between 0 and 1)
+$A$ = cell activity level (between 0 and 1)
 
-$$a _{fading}$$ = activity fading coefficient (between 0 and 1)
+$a _{fading}$ = activity fading coefficient (between 0 and 1)
 
-$$a _{creationinput}$$ = correction factor for activity creation via information input (between 0 and ∞)
+$a _{creationinput}$ = correction factor for activity creation via information input (between 0 and ∞)
 
-$$a _{creationcollision}$$ = correction factor for activity creation via information collision (between 0 and ∞)
+$a _{creationcollision}$ = correction factor for activity creation via information collision (between 0 and ∞)
 
-$$a _{creationtransfer}$$ = correction factor for activity creation via information transfer (between 0 and ∞)
+$a _{creationtransfer}$ = correction factor for activity creation via information transfer (between 0 and ∞)
 
-$$a _{barriertransfer}$$ = upper limit of activity gradient allowing information transfer (between 0 and ∞)
+$a _{barriertransfer}$ = upper limit of activity gradient allowing information transfer (between 0 and ∞)
 
-$$C$$ = information collision event(s)
+$C$ = information collision event(s)
 
-$$T$$ = information token creating collision events
+$T$ = information token creating collision events
 
 
 During model simulation runs, the equations are calculated in the above shown order for each cell. The behavior of the system could be summarized as follows: information creation determines activity creation and activity creation determines information transfer.
@@ -116,15 +116,15 @@ Four different queuing mechanism have been implemented:
 
 The mixed queue uses all four queuing mechanisms, depending on the “information saturation” of a cell at the moment of information substitution (compare equation (4)). This indicator of “information saturation” is calculated as follows:
 
-(9) $$IS_{t0} = ( ∑ (Δ I _{t0n} )) + I {t0}^{Input} / n + 1 / I _{max}$$ , 
+(9) $IS_{t0} = ( ∑ (Δ I _{t0n} )) + I {t0}^{Input} / n + 1 / I _{max}$ , 
 
 
 relates the total amount of gained information through input and transfer, divided firstly by the number of delivering cells (true neighbors for transfer and fictional neighbors for input) and, secondly, by the maximal information content of a cell. The indicator can attain values between 0 and 1. The higher the value, the higher the supply of new information to the cell. Different value intervals of the indicator of “information saturation” correspond to different queue mechanism usages:
 
-$$0 <= IS _{t0} < 0.25$$: “FREQ” usage \
-$$0.25 <= IS _{t0} < 0.50$$: “FIFO” usage \
-$$0.50 <= IS _{t0} < 0.75$$: “FILO” usage \
-$$0.75 <= IS _{t0} <= 1$$: “RARE” usage
+$0 <= IS _{t0} < 0.25$: “FREQ” usage \
+$0.25 <= IS _{t0} < 0.50$: “FIFO” usage \
+$0.50 <= IS _{t0} < 0.75$: “FILO” usage \
+$0.75 <= IS _{t0} <= 1$: “RARE” usage
 
 During a model simulation run the queuing mechanism is thus likely to change several times.
 
@@ -213,13 +213,13 @@ The association lift quotient is conceptually related to the association filteri
 - Cell update procedure: according to the above sequence of equations
 - Habitat: 12 \* 3 = 36 cells
 - Cell information capacity: 100 characters (including token separator “-”)
-- Information fading coefficient $$i _{fading}$$ = 0.25
-- Correction factor for information transfer due to activity gradient $$i _{creationtransfer}$$ = not included
-- Activity gradient limit for information transfer $$a _{barriertransfer}$$ = not included
-- Correction factor for information content inhibiting information transfer $$i _{barriertransfer}$$ = not included
-- Correction factor for activity creation via information input $$a _{creationinput}$$ = 1
-- Correction factor for activity creation via information collision $$a _{creationcollision}$$ = 1
-- Correction factor for activity creation via information transfer $$a _{creationtransfer}$$ = 1
+- Information fading coefficient $i _{fading}$ = 0.25
+- Correction factor for information transfer due to activity gradient $i _{creationtransfer}$ = not included
+- Activity gradient limit for information transfer $a _{barriertransfer}$ = not included
+- Correction factor for information content inhibiting information transfer $i _{barriertransfer}$ = not included
+- Correction factor for activity creation via information input $a _{creationinput}$ = 1
+- Correction factor for activity creation via information collision $a _{creationcollision}$ = 1
+- Correction factor for activity creation via information transfer $a _{creationtransfer}$ = 1
 - Queue type: mixed queue
 - Iterations: 40
 - Input cell: central cell of leftmost column
@@ -262,14 +262,14 @@ The association lift quotient is conceptually related to the association filteri
 - Cell update procedure: according to the sequence of equations described in section 2.3
 - Habitat: 12 \* 3 = 36 cells
 - Cell information capacity: 10 characters (including token separator "-")
-- Correction factor for information transfer through activity gradient $$i _{creationtransfer}$$ = between 0.7 and 1.3, incremented in steps of 0.3
-- Activity gradient limit for information transfer $$a _{barriertransfer}$$ = between 0.2 and 0.8, incremented in steps of 0.1
-- Correction factor for information content inhibiting information transfer $$i _{barriertransfer}$$ = between 0.2 and 0.8, incremented in steps of 0.1
-- Information fading coefficient $$i _{fading}$$ between 0.2 and 0.8, incremented in steps of 0.1
-- Correction factor for activity creation via information input $$a _{creationinput}$$ between 0.7 and 1.3, incremented in steps of 0.3
-- Correction factor for activity creation via information collision $$a _{creationcollision}$$ between 0.7 and 1.3, incremented in steps of 0.3
-- Correction factor for activity creation via information transfer $$a _{creationtransfer}$$ between 0.7 and 1.3, incremented in steps of 0.3
-- Activity fading coefficient $$a _{fading}$$ between 0.2 and 0.8, incremented in steps of 0.1.
+- Correction factor for information transfer through activity gradient $i _{creationtransfer}$ = between 0.7 and 1.3, incremented in steps of 0.3
+- Activity gradient limit for information transfer $a _{barriertransfer}$ = between 0.2 and 0.8, incremented in steps of 0.1
+- Correction factor for information content inhibiting information transfer $i _{barriertransfer}$ = between 0.2 and 0.8, incremented in steps of 0.1
+- Information fading coefficient $i _{fading}$ between 0.2 and 0.8, incremented in steps of 0.1
+- Correction factor for activity creation via information input $a _{creationinput}$ between 0.7 and 1.3, incremented in steps of 0.3
+- Correction factor for activity creation via information collision $a _{creationcollision}$ between 0.7 and 1.3, incremented in steps of 0.3
+- Correction factor for activity creation via information transfer $a _{creationtransfer}$ between 0.7 and 1.3, incremented in steps of 0.3
+- Activity fading coefficient $a _{fading}$ between 0.2 and 0.8, incremented in steps of 0.1.
 - Queue type: FILO queue
 - Iterations: 40
 - Input cell: central cell of leftmost column
@@ -304,28 +304,28 @@ The association lift quotient is conceptually related to the association filteri
 
 | Sample                    | Lift > mean + 2 \* standard deviation | Lift > mean + 3 \* standard deviation | Recombination > mean + 2 \* standard deviation |
 | ------------------------- | ------------------------------------- |---------------------------------------|------------------------------------------------|
-| $$i _{creationtransfer}$$ |  0.00                                 | 0.00                                  | 0.00                                           |
-| $$i _{barriertransfer}$$  |  -0.09                                | -0.21                                 | -0.05                                          |
-| $$i _{fading}$$           |  -0.40                                | -0.33                                 | -0.91                                          |
-| $$a _{creationinput}$$    |  -0.17                                | -0.26                                 | -0.18                                          |
-| $$a _{creationcollision}$$|  0.05                                 | 0.01                                  | 0.18                                           |
-| $$a _{creationtransfer}$$ |  0.24                                  | 0.24                                 | -0.36                                          |
-| $$a _{barriertransfer}$$  |  -0.10                                |-0.16                                  | 0.49                                           |
-| $$a _{fading}$$           |  -0.07                                | 0.11                                  | -1.12                                          | 
+| $i _{creationtransfer}$ |  0.00                                 | 0.00                                  | 0.00                                           |
+| $i _{barriertransfer}$  |  -0.09                                | -0.21                                 | -0.05                                          |
+| $i _{fading}$           |  -0.40                                | -0.33                                 | -0.91                                          |
+| $a _{creationinput}$    |  -0.17                                | -0.26                                 | -0.18                                          |
+| $a _{creationcollision}$|  0.05                                 | 0.01                                  | 0.18                                           |
+| $a _{creationtransfer}$ |  0.24                                  | 0.24                                 | -0.36                                          |
+| $a _{barriertransfer}$  |  -0.10                                |-0.16                                  | 0.49                                           |
+| $a _{fading}$           |  -0.07                                | 0.11                                  | -1.12                                          | 
 
 
 *Table 3.3.4.2: T-test values indicating differences between population whole and samples (values in brackets are not significant on the 0.01 level)* 
 
 | Sample                    | Lift > mean + 2 \* standard deviation | Lift > mean + 3 \* standard deviation | Recombination > mean + 2 \* standard deviation |
 | ------------------------- | ------------------------------------- |---------------------------------------|------------------------------------------------|
-| $$i _{creationtransfer}$$ |  (0.00)                               | (0.00)                                | (0.00)                                         |
-| $$i _{barriertransfer}$$  |  -7.21                                | -14.18                                | (-1.15)                                        |
-| $$i _{fading}$$           |  -41.27                               | -25.82                                | -86.17                                         |
-| $$a _{creationinput}$$    |  -10.60                               | -13.00                                | -3.13                                          |
-| $$a _{creationcollision}$$|  3.83                                 | (0.75)                                | 4.41                                           |
-| $$a _{creationtransfer}$$ |  18.27                                | 14.37                                 | -18.51                                         |
-| $$a _{barriertransfer}$$  |  -7.34                                | -9.74                                 | 15.17                                          |
-| $$a _{fading}$$           |  -4.67                                | 6.29                                  | -65.76                                         | 
+| $i _{creationtransfer}$ |  (0.00)                               | (0.00)                                | (0.00)                                         |
+| $i _{barriertransfer}$  |  -7.21                                | -14.18                                | (-1.15)                                        |
+| $i _{fading}$           |  -41.27                               | -25.82                                | -86.17                                         |
+| $a _{creationinput}$    |  -10.60                               | -13.00                                | -3.13                                          |
+| $a _{creationcollision}$|  3.83                                 | (0.75)                                | 4.41                                           |
+| $a _{creationtransfer}$ |  18.27                                | 14.37                                 | -18.51                                         |
+| $a _{barriertransfer}$  |  -7.34                                | -9.74                                 | 15.17                                          |
+| $a _{fading}$           |  -4.67                                | 6.29                                  | -65.76                                         | 
 
 #### 3.3.5. Discussion
 
