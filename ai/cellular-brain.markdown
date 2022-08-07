@@ -302,30 +302,41 @@ The association lift quotient is conceptually related to the association filteri
 
  *Table 3.3.4.1: Arithmetic mean of parameter values in samples with high modeling performance (mean in whole population always 1)*
 
-| Sample                    | Lift > mean + 2 \* standard deviation | Lift > mean + 3 \* standard deviation | Recombination > mean + 2 \* standard deviation |
-| ------------------------- | ------------------------------------- |---------------------------------------|------------------------------------------------|
-| $$i _{creationtransfer}$$ |  0.00                                 | 0.00                                  | 0.00                                           |
-| $$i _{barriertransfer}$$  |  -0.09                                | -0.21                                 | -0.05                                          |
-| $$i _{fading}$$           |  -0.40                                | -0.33                                 | -0.91                                          |
-| $$a _{creationinput}$$    |  -0.17                                | -0.26                                 | -0.18                                          |
-| $$a _{creationcollision}$$|  0.05                                 | 0.01                                  | 0.18                                           |
-| $$a _{creationtransfer}$$ |  0.24                                  | 0.24                                 | -0.36                                          |
-| $$a _{barriertransfer}$$  |  -0.10                                |-0.16                                  | 0.49                                           |
-| $$a _{fading}$$           |  -0.07                                | 0.11                                  | -1.12                                          | 
+| Sample                    |  A     |  B     |  C    |
+| ------------------------- | ------ |--------|-------|
+| $$i _{creationtransfer}$$ | 0.00   | 0.00   | 0.00  |
+| $$i _{barriertransfer}$$  | -0.09  | -0.21  | -0.05 |
+| $$i _{fading}$$           | -0.40  | -0.33  | -0.91 |
+| $$a _{creationinput}$$    | -0.17  | -0.26  | -0.18 |
+| $$a _{creationcollision}$$| 0.05   | 0.01   | 0.18  |
+| $$a _{creationtransfer}$$ | 0.24   | 0.24   | -0.36 |
+| $$a _{barriertransfer}$$  | -0.10  | -0.16  | 0.49  |
+| $$a _{fading}$$           | -0.07  | 0.11   | -1.12 | 
 
+For: 
+
+- A: Lift > mean + 2\* standard deviation
+- B: Lift > mean + 3 \* standard deviation
+- C: Recombination > mean + 2 \* standard deviation 
 
 *Table 3.3.4.2: T-test values indicating differences between population whole and samples (values in brackets are not significant on the 0.01 level)* 
 
-| Sample                    | Lift > mean + 2 \* standard deviation | Lift > mean + 3 \* standard deviation | Recombination > mean + 2 \* standard deviation |
-| ------------------------- | ------------------------------------- |---------------------------------------|------------------------------------------------|
-| $$i _{creationtransfer}$$ |  (0.00)                               | (0.00)                                | (0.00)                                         |
-| $$i _{barriertransfer}$$  |  -7.21                                | -14.18                                | (-1.15)                                        |
-| $$i _{fading}$$           |  -41.27                               | -25.82                                | -86.17                                         |
-| $$a _{creationinput}$$    |  -10.60                               | -13.00                                | -3.13                                          |
-| $$a _{creationcollision}$$|  3.83                                 | (0.75)                                | 4.41                                           |
-| $$a _{creationtransfer}$$ |  18.27                                | 14.37                                 | -18.51                                         |
-| $$a _{barriertransfer}$$  |  -7.34                                | -9.74                                 | 15.17                                          |
-| $$a _{fading}$$           |  -4.67                                | 6.29                                  | -65.76                                         | 
+| Sample                    |  A     | B      | C      |
+| ------------------------- | -------|--------|--------|
+| $$i _{creationtransfer}$$ | (0.00) | (0.00) | (0.00) |
+| $$i _{barriertransfer}$$  | -7.21  | -14.18 | (-1.15)|
+| $$i _{fading}$$           | -41.27 | -25.82 | -86.17 |
+| $$a _{creationinput}$$    | -10.60 | -13.00 | -3.13  |
+| $$a _{creationcollision}$$| 3.83   | (0.75) | 4.41   |
+| $$a _{creationtransfer}$$ | 18.27  | 14.37  | -18.51 |
+| $$a _{barriertransfer}$$  | -7.34  | -9.74  | 15.17  |
+| $$a _{fading}$$           | -4.67  | 6.29   | -65.76 | 
+
+For: 
+
+- A: Lift > mean + 2\* standard deviation
+- B: Lift > mean + 3 \* standard deviation
+- C: Recombination > mean + 2 \* standard deviation 
 
 #### 3.3.5. Discussion
 
