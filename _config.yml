@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Mein Rennsteig-Tagebuch and a Cellular Brain!
+title: Mein Rennsteig-Tagebuch ...and a Cellular Brain!
 email: arne.scheuer@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Rennsteig non-stop: seit bald 15 Jahren bin ich, Arne Scheuer, mindestens einmal

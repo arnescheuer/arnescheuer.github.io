@@ -117,7 +117,7 @@ Four different queuing mechanism have been implemented:
 
 The mixed queue uses all four queuing mechanisms, depending on the “information saturation” of a cell at the moment of information substitution (compare equation (4)). This indicator of “information saturation” is calculated as follows:
 
-(9) $$IS_{t0} = ( ∑ (Δ I _{t0n} )) + I {t0}^{Input} / n + 1 / I _{max}$$ , 
+(9) $$IS_{t0} = ( ∑ (Δ I _{t0n} )) + I _{t0}^{Input} / n + 1 / I _{max}$$ , 
 
 
 relates the total amount of gained information through input and transfer, divided firstly by the number of delivering cells (true neighbors for transfer and fictional neighbors for input) and, secondly, by the maximal information content of a cell. The indicator can attain values between 0 and 1. The higher the value, the higher the supply of new information to the cell. Different value intervals of the indicator of “information saturation” correspond to different queue mechanism usages:
