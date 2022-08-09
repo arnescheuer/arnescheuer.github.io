@@ -53,9 +53,10 @@ Information fading
 (2) $$+Δ I _{t0} = I _{t0}^{Input}$$ , \
 Information input from outside the system
 
-(3) $$+Δ I _{t0} = ∑ (( A _{t-1n} - A _{t-1} ) * i _{creation transfer} * I _{t-1} \land 
-(( A _{t-1n} - A _{t-1} ) * i _{creationtransfer} < a _{barriertransfer} \lor 
-I _{t-1} < I  _{max} * i _{barrier transfer})))$$ , \
+(3) $$+Δ I _{t0}$$ = \
+$$∑(( A _{t-1n} - A _{t-1} ) * i _{creation transfer} * I _{t-1} \land$$ \
+$$(( A _{t-1n} - A _{t-1} ) * i _{creationtransfer} < a _{barriertransfer} \lor$$ \
+$$I _{t-1} < I  _{max} * i _{barrier transfer})))$$ , \
 Information transfer from neighboring cells
 
 (4) $$-Δ I _{t0} = I _{t0} - I _{max}$$ , \
