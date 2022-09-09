@@ -5,7 +5,7 @@ usemathjax: true
 img-path: "/assets/img/ai/cellular-brain/"
 ---
 
-# A model based on cellular automata
+#  A cellular automata based model for autonomous information processing.
 
 ## 1. Introduction
 
