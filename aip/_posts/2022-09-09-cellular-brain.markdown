@@ -1,6 +1,7 @@
 ---
-layout: page
+layout: post
 title:  "Cellular Brain"
+date:   2022-09-09 10:00:00 +0200
 usemathjax: true
 img-path: "/assets/img/ai/cellular-brain/"
 ---

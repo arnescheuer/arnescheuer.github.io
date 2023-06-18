@@ -18,13 +18,11 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Mein Rennsteig-Tagebuch ...and a Cellular Brain!
+title: My Blogs - Hiking & Autonomous Information Processing
 email: arne.scheuer@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Rennsteig non-stop: seit bald 15 Jahren bin ich, Arne Scheuer, mindestens einmal
-  jährlich in Thüringen, um den Rennsteig ohne Übernachtung in einem Stück zu erwandern -
-  169 km und mehr als 3000 Höhenmeter zwischen Hörschel und Blankenstein. And the 
-  Cellular Brain: a model for autonomous information processing based on cellular automata.      
+description: 
+  Hiking on the Rennsteig and elsewhere & new approaches in information representation and processing ||
+  Wandern auf dem Rennsteig und anderswo & neue Ansätze in der Informationsdarstellung und -verarbeitung. 
   
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://arnescheuer.github.io" # the base hostname & protocol for your site, e.g. http://example.com

@@ -1,9 +1,8 @@
 ---
 layout: post
-title:  "Mai 2022"
+title:  "Mein Rennsteigtagebuch - Mai 2022"
 date:   2022-06-06 10:00:00 +0200
 img-path: "/assets/img/hiking/rennsteig/2022/"
-categories: hiking rennsteig
 ---
 Wie üblich habe ich morgens am Donnerstag um 7:13 den Zug von Eisenach Richtung Bebra genommen und bin in Hörschel ausgestiegen. Nachdem ich kurz die noch immer notwendige Schutzmaske verstaut hatte, wollte ich die Gleise überqueren und Richtung Dorfkirche zum Rennsteigbeginn laufen. Schon aber senkte sich wieder die Bahnschranke und ich musste weitere fünf Minuten warten, bevor ein Güterzug passierte. Unerklärlicher Weise machte mich dieses kurze Warten nervös, ich wollte keine Verspätung.
 Am Rennsteigbeginn alles wie noch wenige Monate zuvor, als ich im August meinen zweiten Versuch im Jahre 2021 unternahm. Etwas enttäuschend die winzigen Kiesel, die für Wanderer bereitgestellt wurden, um sie dann in Blankenstein in die Saale zu werfen. 

@@ -1,9 +1,8 @@
 ---
 layout: post
-title:  "Juli/August 2021"
+title:  "Mein Rennsteigtagebuch - Juli/August 2021"
 date:   2021-03-13 10:00:00 +0200
 img-path: "/assets/img/hiking/rennsteig/2021/"
-categories: hiking rennsteig
 ---
 
 ## Die Vorgeschichte
