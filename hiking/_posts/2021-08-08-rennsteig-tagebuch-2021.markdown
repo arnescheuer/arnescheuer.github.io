@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Mein Rennsteigtagebuch - Juli/August 2021"
-date:   2021-03-13 10:00:00 +0200
+date:   2021-08-08 10:00:00 +0200
 img-path: "/assets/img/hiking/rennsteig/2021/"
 ---
 
@@ -12,6 +12,8 @@ Warum der Rennsteig? Die Distanz schien mir machbar, die Höhenmeter auf dem Pap
 Die markante Markierung mit dem weißem, großen „R“ war geeignet, auch in der Nacht den Weg zu finden. Soweit die Theorie – in der Praxis lagen die Markierungen zum Teil weit auseinander, waren bereits verblasst oder so angebracht, dass an Gabelungen kein eindeutiger Weg erkennbar war. Besonders in den ersten Jahren bin ich so längere Zeit in die falsche Richtung gelaufen, bevor ich unsicher wurde und viele hundert Meter zurückging, um eine sichere Markierung fand. Dann musste eine Wegalternative identifiziert werden!
 
 ## Der Plan
+
+01.07.21, 07:30 bis 02.07.21, 07:30
 
 Aufgrund der Covid19-Restriktionen auch in Thüringen musste ich den geplanten Termin für meine jährliche Rennsteigwanderung verschieben. Normalerweise starte ich gerne Anfang Mai: der Schnee in den Hochlagen ist geschmolzen, die Tage sind bereits sehr lang, aber die Sommerhitze ist noch weit weg. Jetzt war es Anfang Juli.
 Es war langandauernder Regen vorhergesagt. Schon als ich das Hotel verließ und in den Himmel schaute, gab es keinen Anlass für Optimismus. Zwar war ich mit Regenhose, Regenjacke und Wanderschirm eigentlich gut ausgerüstet. Aber aus Erfahrung wusste ich, dass speziell die Wanderschuhe, trotz Gorotex-Membran, ein wesentlicher Schwachpunkt bei Dauerregen oder auch nur Bodennässe sein können. Daneben ist es wenig angenehm, im Hochsommer stundenlang gerade tagsüber mit Regenhosen über der regulären Wanderhose zu laufen.
@@ -35,6 +37,8 @@ Die Erfahrung der eher eintönigen Wegstrecke der folgenden 8 Kilometer bis zum 
 ![Unterwegs im Regen]({{page.img-path}}20210701_201116_resize.jpg)
 
 ## Plan B
+
+05.08.21, 07:29 bis 07.08.21, 09:10
 
 Kaum zu Hause, analysierte ich mein Scheitern. Mir war klar, dass die Entscheidung zum Abbruch richtig war. Ohne Aussicht auf eine Trockenperiode hätte ich die verbleibenden fast 90 Kilometer in durchnässten Schuhen laufen müssen, eine weitere Nacht mit stark eingeschränkter Sicht das Problem noch verschlimmert. Meine Gedanken kreisten besonders um das Thema Schuhe. Auch eine Gorotex-Membran konnte unter den herrschenden Verhältnissen nicht gewährleisten, dass konventionelle Wanderschuhe trocken blieben. Ich recherchierte und fand zwei Modelle der Firma „cloudrock“, die zumindest als „waterproof“ eingestuft sind. Nachdem ich in meinem Basler Outdoorshop nachgefragt hatte, wurden zwei Paare in meiner Größe beim Lieferanten bestellt und ich konnte sie anprobieren. Ich entschied mich für die halbhohe Version und war vom Tragekomfort begeistert. Nur würden sie auch Dauerregen überstehen?
 Mir lief in diesem Jahr nun etwas die Zeit davon. Je länger ich wartete, desto kürzer wurde die Tageslänge. Einmal hatte ich eine Rennsteigwanderung im März versucht – keine gute Idee! Hoher Schnee und die lange Dunkelheit ließen mich schon nach 60 Kilometern in Oberhof aussteigen. Also buchte ich jetzt für Anfang August wieder mein Stammhotel in Eisenach. Dort wollte ich jeweils am An- uns Abreisetag eine Übernachtung vornehmen. Es bliebt mir jetzt noch eine recht kurze Bergwanderung, um meine neuerworbenen Schuhe einzulaufen.
