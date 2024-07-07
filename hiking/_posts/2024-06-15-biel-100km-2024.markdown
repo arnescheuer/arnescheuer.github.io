@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Mit Wanderstöcken unterwegs auf den Biel100 – 2024"
+title:  "Mit Wanderstöcken unterwegs auf den Biel 100 km – 2024"
 date:   2024-06-15 10:00:00 +0200
 img-path: "/assets/img/hiking/biel100/2024/"
 ---
