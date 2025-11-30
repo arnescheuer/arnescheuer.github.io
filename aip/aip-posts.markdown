@@ -1,4 +1,4 @@
 ---
 layout: postlist-aip
-title: AI
+title: Informatics
 ---
