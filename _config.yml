@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: My Blogs - Hiking & AI 
+title: My Blogs - Hiking & Informatics 
 email: arne.scheuer@gmail.com
 description: 
   Non-stop hiking the Rennsteig and other great trails & new approaches in information representation and processing ||
